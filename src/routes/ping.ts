@@ -1,6 +1,7 @@
 import { Router } from "express";
 import Joi from "joi";
 import { validate } from "../middlewares/validate";
+import { wall } from "../middlewares/auth";
 import { Bug } from "../models/Bug";
 import { Device } from "../models/Device";
 
@@ -18,7 +19,7 @@ const schema = Joi.object({
 		),
 });
 
-router.post("/", validate(schema), async (req, res) => {
+router.post("/", wall, validate(schema), async (req, res) => {
 	const now = new Date();
 	const devices: {
 		address: string;
@@ -29,8 +30,6 @@ router.post("/", validate(schema), async (req, res) => {
 		name: d.name || undefined,
 		type: d.type,
 	}));
-
-	if (!devices.length) return res.status(200).json({ code: "NO_DEVICES" });
 
 	const bluetoothAddressRegex = /^([0-9A-F]{2}):([0-9A-F]{2}):([0-9A-F]{2}):([0-9A-F]{2}):([0-9A-F]{2}):([0-9A-F]{2})$/;
 	const anormal = devices.filter((d) => !bluetoothAddressRegex.test(d.address));
