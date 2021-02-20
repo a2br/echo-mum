@@ -1,12 +1,13 @@
 export { Device, IDeviceDoc };
 
-import { Document, Schema, model } from "mongoose";
+import { Document, Schema, model, ObjectId } from "mongoose";
 
 interface IDeviceDoc extends Document {
 	address: string;
 	name?: string;
 	type?: number;
 	pings: Array<{
+		_id?: ObjectId;
 		time: Date;
 		bug: number;
 		as: {

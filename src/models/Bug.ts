@@ -1,6 +1,6 @@
 export { Bug, IBugDoc };
 
-import { Document, Schema, model } from "mongoose";
+import { Document, Schema, model, ObjectId } from "mongoose";
 
 interface IBugDoc extends Document {
 	id: number;
@@ -8,6 +8,7 @@ interface IBugDoc extends Document {
 	token: string;
 	lastSeenAt: Date;
 	pings: Array<{
+		_id?: ObjectId;
 		time: Date;
 		devices: Array<{
 			address: string;
