@@ -34,7 +34,6 @@ router.get("/", async (req, res) => {
 		);
 
 	res.json({
-		targets: targets.map((t) => +t),
 		mode: mode,
 		devices: targetedDevices.length,
 		bugs: targetedBugs.map((b) => ({
@@ -50,7 +49,7 @@ function getTargets(params: unknown): string[] {
 	let newParams = params as string | string[] | undefined;
 	if (!newParams) return [];
 	if (typeof newParams === "string") newParams = [newParams];
-	return newParams.flatMap((p) => p.split(","));
+	return newParams.flatMap((p) => p.split(",").filter((e) => !!e));
 }
 
 module.exports = router;
